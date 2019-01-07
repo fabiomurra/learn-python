@@ -5,3 +5,6 @@
 /learn-python.sln
 /learn-python.pyperf
 /learn-python.pyproj
+
+# VS cache
+.vs/
