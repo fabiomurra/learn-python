@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ProfilingTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectTarget>
+    <TargetProject>50e40adc-93ac-43e5-a144-8611ca7c6c40</TargetProject>
+    <FriendlyName>learn-python</FriendlyName>
+  </ProjectTarget>
+  <Reports>
+    <Report>
+      <Filename>C:\Users\fabio.murra\AppData\Local\Temp\learn-python_20181120.vsp</Filename>
+    </Report>
+  </Reports>
+</ProfilingTarget>
