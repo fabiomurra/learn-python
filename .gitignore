@@ -6,4 +6,6 @@
 /learn-python.pyperf
 /learn-python.pyproj
 /learn-python/v15/.suo
+.vs/*.*
 *.suo
+*.sqlite
