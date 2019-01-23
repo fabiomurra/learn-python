@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\picAIanalysis",
+    "\\videoTx2Mezzanine"
   ],
+  "SelectedNode": "\\test1.py",
   "PreviewInSolutionExplorer": false
 }
