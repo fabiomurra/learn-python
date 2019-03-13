@@ -5,6 +5,7 @@
 /learn-python.sln
 /learn-python.pyperf
 /learn-python.pyproj
-
-# VS cache
-.vs/
+/learn-python/v15/.suo
+.vs/*.*
+*.suo
+*.sqlite
