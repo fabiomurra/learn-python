@@ -9,3 +9,6 @@
 .vs/*.*
 *.suo
 *.sqlite
+/feedLove/keys/feedlove01-65c771c48b27.json
+.vs/VSWorkspaceState.json
+.vs/slnx.sqlite
