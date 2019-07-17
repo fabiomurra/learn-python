@@ -8,10 +8,14 @@
 
 print('*** feed Love ***'),
 
+# some set variables (could become arguments)
 AM_I_TESTING = True
+WATCH_DIR = "watch"
+PROC_DIR = "proc"
+SUPPORTED_IMAGES = ['jpg', 'png']
 
 ### IMPORT ###
-print('import the relevant modules \n')
+print('importing the relevant modules')
 import os
 import io
 import sys
@@ -25,52 +29,40 @@ from google.cloud.vision import types
 # IMAGES to be analysed 
 # for now this is expected to be found in a WATCH folder 
 # the operation returns a list
-imagesToProcess = myFileOps.getFiles("watch")
-
-print('I have been looking for files in the watch directory. \nThis is what i found:')
-print(*imagesToProcess, sep = "\n") 
-
-# ...............
-# a better way to describe the name of the image file to annotate
-# file_name = os.path.join(os.path.dirname(__file__),'resources/wakeupcat.jpg')
-# ...............
-
-### SETUP ###
-# as part of this project i'm using Google Vision API and i need to set myself up in order to use it
-# do i need to set this up all the time?
-# print('setting up the environment to run Google Vision API \n')
-#os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = myGoogleOps.GOOGLE_APPLICATION_CREDENTIALS
-
-
-
-
-### ANALYSIS ###
-# set up annotator client in 'vision'
-# >>> client = vision.ImageAnnotatorClient()
-
-# load an image into your workspace
-# will eventually run through the array and do this one at the time
-with io.open(imagesToProcess[0], 'rb') as imageFile:
-        localImageToAnalyse = imageFile.read()
-
-# instantiate a vision object of type image
-objectImageToAnalyse = vision.types.Image(content=localImageToAnalyse)
-
-print(objectImageToAnalyse)
-
-if (AM_I_TESTING):
+print('fetching images to be analysed')
+print('supported image types are: %s' % SUPPORTED_IMAGES)
+if myFileOps.checkDirExists(WATCH_DIR, True):
+    imagesToProcess = myFileOps.getFiles(WATCH_DIR, False)
+else:
+    print("Error in fetching content from directory %s " % WATCH_DIR)
     exit(0)
 
+# if the list is empty, there are no files to process, i will just exit
+if (len(imagesToProcess)==0):
+    print('There are no files to process. Exiting!')
+    exit(1)
 
-# analyse the image
-# LABELS
-response = client.label_detection(image=objectImageToAnalyse)
-labels = response.label_annotations
+print('I have been looking for files in the %s directory. \nThis is what i found:' % WATCH_DIR)
+print(*imagesToProcess, sep = "\n") 
 
-print('Labels:')
+# Run through the images in the array and process one at the time
+for image in imagesToProcess:
+    imageFullPath = WATCH_DIR + '/' + image
+    try:     
+        os.path.exists(imageFullPath)
+        # get google to analyse it and return sth
+        print('processing %s ' % imageFullPath)
+        imageLabels = myGoogleOps.GV_getLabels(imageFullPath)
+        imageLabelsList = []
+        for label in imageLabels:
+            imageLabelsList.append({'description': label.description, 'score': label.score, 'mid': label.mid})
+        myFileOps.dumpToJSON(imageLabelsList, os.path.splitext(imageFullPath)[0])
+    except OSError:    
+        print ("Exeption in analysing of %s " % imageFullPath)
+        
 
-for label in labels:
-    print(label.description + "     score:" + str(round(label.score*100,1)) + "%")
-
+# left to do, dump output of each image to JSON (properly formatted - at the moment is not)
+# copy with the same name of the image to proc (i shuold already put the json in proc - it's not to watch)
+# remove the image from watch
 
 print('\ndone!')

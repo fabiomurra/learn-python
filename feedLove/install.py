@@ -10,6 +10,9 @@ import os
 #install Python variant of Vision API
 os.system("pip install google-cloud-vision")
 
+#install google vision libraries
+pip install google-cloud-vision
+
 
 
 
