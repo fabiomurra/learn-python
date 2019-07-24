@@ -46,8 +46,8 @@ def getFiles (path = ".", ext = "", recur = False):
     fileList = os.listdir(path)
     fileReturnList = []
     for fileName in fileList:
-        print('checking if ' + fileName + ' ends in {0} '.format(ext))
-        print(fileName.lower().endswith(ext))
+        #print('checking if ' + fileName + ' ends in {0} '.format(ext))
+        #print(fileName.lower().endswith(ext))
         if fileName.lower().endswith(ext):
             fileReturnList.append(fileName)
     return fileReturnList

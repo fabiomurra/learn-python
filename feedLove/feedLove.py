@@ -19,6 +19,7 @@ print('importing the relevant modules')
 import os
 import io
 import sys
+import ntpath
 import myFileOps
 import myGoogleOps
 # do i need these here? i already have them in myGoogleOps
@@ -36,6 +37,8 @@ if myFileOps.checkDirExists(WATCH_DIR, True):
 else:
     print("Error in fetching content from directory %s " % WATCH_DIR)
     exit(0)
+# create destination directory
+myFileOps.checkDirExists(PROC_DIR, True)
 
 # if the list is empty, there are no files to process, i will just exit
 if (len(imagesToProcess)==0):
@@ -46,17 +49,24 @@ print('I have been looking for files in the %s directory. \nThis is what i found
 print(*imagesToProcess, sep = "\n") 
 
 # Run through the images in the array and process one at the time
+counter = 0
 for image in imagesToProcess:
-    imageFullPath = WATCH_DIR + '/' + image
+    imageFullPath = os.path.join(WATCH_DIR, image)
     try:     
         os.path.exists(imageFullPath)
         # get google to analyse it and return sth
         print('processing %s ' % imageFullPath)
         imageLabels = myGoogleOps.GV_getLabels(imageFullPath)
         imageLabelsList = []
+        # build a list of GC vision results with the label i want
         for label in imageLabels:
             imageLabelsList.append({'description': label.description, 'score': label.score, 'mid': label.mid})
-        myFileOps.dumpToJSON(imageLabelsList, os.path.splitext(imageFullPath)[0])
+        # dump the list to a JSON file, already in the destination directory
+        myFileOps.dumpToJSON(imageLabelsList, os.path.join(PROC_DIR, os.path.splitext(ntpath.basename(imageFullPath))[0]))
+        # move the image file in the destination directory as well (itd be more efficient to do it in bulk)
+        myFileOps.moveFiles([image],WATCH_DIR,PROC_DIR)
+        counter = counter + 1
+        print ("done: [%s/%s]" % (counter, len(imagesToProcess)))
     except OSError:    
         print ("Exeption in analysing of %s " % imageFullPath)
         
