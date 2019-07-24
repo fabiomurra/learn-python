@@ -12,7 +12,7 @@ print('*** feed Love ***'),
 AM_I_TESTING = True
 WATCH_DIR = "watch"
 PROC_DIR = "proc"
-SUPPORTED_IMAGES = ['jpg', 'png']
+SUPPORTED_IMAGES = ('.jpg', '.jpeg', '.png')
 
 ### IMPORT ###
 print('importing the relevant modules')
@@ -30,9 +30,9 @@ from google.cloud.vision import types
 # for now this is expected to be found in a WATCH folder 
 # the operation returns a list
 print('fetching images to be analysed')
-print('supported image types are: %s' % SUPPORTED_IMAGES)
+print('supported image types are: {0}'.format(SUPPORTED_IMAGES))
 if myFileOps.checkDirExists(WATCH_DIR, True):
-    imagesToProcess = myFileOps.getFiles(WATCH_DIR, False)
+    imagesToProcess = myFileOps.getFiles(WATCH_DIR, SUPPORTED_IMAGES, False)
 else:
     print("Error in fetching content from directory %s " % WATCH_DIR)
     exit(0)

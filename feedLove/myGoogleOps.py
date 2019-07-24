@@ -18,6 +18,7 @@ from google.cloud import vision
 from google.cloud.vision import types
 
 
+
 ### VARIABLES ###
 
 # GCP: Vision API JSON file (not included as part of the Git Commit, ie local only, as it contains keys information)
@@ -34,7 +35,7 @@ print("GOOGLE_APPLICATION_CREDENTIALS is set to " + os.environ["GOOGLE_APPLICATI
 ### CLIENT ###
 # setup a Google Vision Client 
 # this will be needed for all operations
-# should it be included inside the various functions?
+# an di should actually check that the service is available
 GVClient = vision.ImageAnnotatorClient()
 
 # GV_getLabels #

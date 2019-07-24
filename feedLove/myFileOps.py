@@ -41,9 +41,16 @@ def checkDirExists (folder = "newDir", create = False):
 # these are defined by
 # path: files in a given path
 # ext: files with an extension in a given list
-# recur: true/false whether to look at subdirectories
-def getFiles (path = ".", ext = "", recur = True):
-    return os.listdir(path)
+# recur: true/false whether to look at subdirectories (NOT YET INCLUDED/WORKING)
+def getFiles (path = ".", ext = "", recur = False):
+    fileList = os.listdir(path)
+    fileReturnList = []
+    for fileName in fileList:
+        print('checking if ' + fileName + ' ends in {0} '.format(ext))
+        print(fileName.lower().endswith(ext))
+        if fileName.lower().endswith(ext):
+            fileReturnList.append(fileName)
+    return fileReturnList
 
 # moveFiles #
 # copy a list of files from one dir to another
